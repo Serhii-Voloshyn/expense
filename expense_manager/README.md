@@ -20,7 +20,7 @@ This project provides a simple Django REST API to help users manage their expens
 1. Clone the repository:
 
    ```bash
-   git clone https://github.com/1gorb1lyk/expense-manager.git
+   git clone https://github.com/Serhii-Voloshyn/expense.git
    cd expense-manager
    ```
 
