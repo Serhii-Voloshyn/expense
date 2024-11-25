@@ -1,180 +1,175 @@
 
-## Project Overview
-This project is a simple Django REST API for managing user expenses. It allows users to create, list, update, and delete expenses, as well as filter expenses by date range and generate category summaries.
+# Expense Manager API
+
+This project provides a simple Django REST API to help users manage their expenses. The application supports full CRUD operations for expenses, filtering by date ranges, and generating expense summaries by category.
 
 ## Features
-- **Expense CRUD**: Create, retrieve, update, and delete expenses.
-- **Filter by Date Range**: List expenses for a user within a specified date range.
-- **Category Summary**: Calculate total expenses per category for a given month.
 
----
+1. **Expense Management**: Create, view, update, and delete expenses.
+2. **Filter by Date Range**: Query expenses within a specific date range.
+3. **Category Summaries**: Generate monthly summaries of expenses grouped by categories.
 
-## Setup Instructions
+## Requirements
 
-### Prerequisites
-Ensure you have the following installed:
 - Python 3.x
 - Django 5.x
 - Django REST Framework
 
-### Installation
+## Installation
+
 1. Clone the repository:
-    ```bash
-    git clone https://github.com/1gorb1lyk/expense-manager.git
-    cd expense-manager
-    ```
 
-2. Create a virtual environment and activate it:
-    ```bash
-    python3 -m venv .venv
-    source .venv/bin/activate
-    ```
+   ```bash
+   git clone https://github.com/1gorb1lyk/expense-manager.git
+   cd expense-manager
+   ```
 
-3. Install the dependencies:
-    ```bash
-    pip install -r requirements.txt
-    ```
+2. Create and activate a virtual environment:
+
+   ```bash
+   python3 -m venv .venv
+   source .venv/bin/activate
+   ```
+
+3. Install the required dependencies:
+
+   ```bash
+   pip install -r requirements.txt
+   ```
 
 4. Apply migrations:
-    ```bash
-    python manage.py makemigrations
-    python manage.py migrate
-    ```
 
-5. Create a superuser to access the admin panel:
-    ```bash
-    python manage.py createsuperuser
-    ```
+   ```bash
+   python manage.py makemigrations
+   python manage.py migrate
+   ```
 
-6. Run the server:
-    ```bash
-    python manage.py runserver
-    ```
+5. Create a superuser account:
 
-The API will be available at `http://localhost:8000/api/`.
+   ```bash
+   python manage.py createsuperuser
+   ```
 
----
+6. Start the server:
 
-## API Endpoints
+   ```bash
+   python manage.py runserver
+   ```
 
-### 1. List All Expenses
-- **Method**: `GET`
-- **Endpoint**: `/api/expenses/`
-- **Description**: Retrieves a list of all expenses.
-- **Response**: `200 OK`
-    ```json
-    [
-      {
+   The API will be accessible at `http://127.0.0.1:8000/api/`.
+
+## API Documentation
+
+### 1. Retrieve All Expenses
+**Method**: `GET`  
+**Endpoint**: `/api/expenses/`  
+**Response**:
+```json
+[
+    {
         "id": 1,
         "user": 1,
-        "title": "Groceries",
-        "amount": "75.50",
-        "date": "2024-11-15",
-        "category": "Food"
-      }
-    ]
-    ```
-
----
-
-### 2. Create an Expense
-- **Method**: `POST`
-- **Endpoint**: `/api/expenses/`
-- **Description**: Creates a new expense.
-- **Body**:
-    ```json
-    {
-      "user": 1,
-      "title": "Groceries",
-      "amount": 75.50,
-      "date": "2024-11-15",
-      "category": "Food"
+        "title": "Rent",
+        "amount": "800.00",
+        "date": "2024-11-01",
+        "category": "Housing"
     }
-    ```
-- **Response**: `201 Created`
-    ```json
-    {
-      "id": 1,
-      "user": 1,
-      "title": "Groceries",
-      "amount": "75.50",
-      "date": "2024-11-15",
-      "category": "Food"
-    }
-    ```
+]
+```
 
----
+### 2. Add a New Expense
+**Method**: `POST`  
+**Endpoint**: `/api/expenses/`  
+**Request Body**:
+```json
+{
+    "user": 1,
+    "title": "Electricity Bill",
+    "amount": 100.50,
+    "date": "2024-11-20",
+    "category": "Utilities"
+}
+```
+**Response**:
+```json
+{
+    "id": 2,
+    "user": 1,
+    "title": "Electricity Bill",
+    "amount": "100.50",
+    "date": "2024-11-20",
+    "category": "Utilities"
+}
+```
 
-### 3. Retrieve a Single Expense
-- **Method**: `GET`
-- **Endpoint**: `/api/expenses/<int:pk>/`
-- **Description**: Retrieves details of a single expense by its ID.
-- **Response**: `200 OK`
-    ```json
-    {
-      "id": 1,
-      "user": 1,
-      "title": "Groceries",
-      "amount": "75.50",
-      "date": "2024-11-15",
-      "category": "Food"
-    }
-    ```
-
----
+### 3. Retrieve a Specific Expense
+**Method**: `GET`  
+**Endpoint**: `/api/expenses/<id>/`  
+**Response**:
+```json
+{
+    "id": 1,
+    "user": 1,
+    "title": "Rent",
+    "amount": "800.00",
+    "date": "2024-11-01",
+    "category": "Housing"
+}
+```
 
 ### 4. Delete an Expense
-- **Method**: `DELETE`
-- **Endpoint**: `/api/expenses/<int:pk>/`
-- **Description**: Deletes an expense by its ID.
-- **Response**: `204 No Content`
+**Method**: `DELETE`  
+**Endpoint**: `/api/expenses/<id>/`  
+**Response**: 204 No Content
 
----
-
-### 5. List Expenses by Date Range
-- **Method**: `GET`
-- **Endpoint**: `/api/expenses/date-range/<int:user_id>/?start=YYYY-MM-DD&end=YYYY-MM-DD`
-- **Description**: Lists expenses for a user within the specified date range.
-- **Example**:
-    ```
-    /api/expenses/date-range/1/?start=2024-11-01&end=2024-11-30
-    ```
-- **Response**: `200 OK`
-    ```json
-    [
-      {
-        "id": 2,
+### 5. Filter Expenses by Date Range
+**Method**: `GET`  
+**Endpoint**: `/api/expenses/date-range/<user_id>/?start=YYYY-MM-DD&end=YYYY-MM-DD`  
+**Example**:
+```
+/api/expenses/date-range/1/?start=2024-11-01&end=2024-11-30
+```
+**Response**:
+```json
+[
+    {
+        "id": 3,
         "user": 1,
-        "title": "Taxi",
-        "amount": "30.00",
+        "title": "Grocery",
+        "amount": "150.00",
         "date": "2024-11-12",
-        "category": "Travel"
-      }
-    ]
-    ```
+        "category": "Food"
+    }
+]
+```
 
----
-
-### 6. Get Expense Category Summary
-- **Method**: `GET`
-- **Endpoint**: `/api/expenses/summary/<int:user_id>/<int:month>/`
-- **Description**: Calculates and returns the total expenses per category for a given user and month.
-- **Example**:
-    ```
-    /api/expenses/summary/1/11/
-    ```
-- **Response**: `200 OK`
-    ```json
-    [
-      {
+### 6. Monthly Expense Category Summary
+**Method**: `GET`  
+**Endpoint**: `/api/expenses/summary/<user_id>/<month>/`  
+**Example**:
+```
+/api/expenses/summary/1/11/
+```
+**Response**:
+```json
+[
+    {
         "category": "Food",
-        "total": "75.50"
-      },
-      {
-        "category": "Travel",
-        "total": "30.00"
-      }
-    ]
-    ```
+        "total": "150.00"
+    },
+    {
+        "category": "Housing",
+        "total": "800.00"
+    }
+]
+```
+
+## Additional Notes
+
+- Ensure that `Python 3.x` and the required dependencies are installed before starting the application.
+- Customize the project as needed for your use case.
+- For additional help, refer to Django's official documentation.
 
 ---
+
+Happy coding!
